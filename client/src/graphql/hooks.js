@@ -11,6 +11,11 @@ export function useAddMessage() {
         context: {
           headers: { 'Authorization': 'Bearer ' + getAccessToken() },
         },
+        update: (cache, { data: { message } }) => {
+          cache.updateQuery({ query: MESSAGES_QUERY }, (oldData) => {
+            return { messages: [...oldData.messages, message] };
+          });
+        },
       });
       return message;
     },
